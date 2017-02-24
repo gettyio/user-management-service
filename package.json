@@ -1,0 +1,8 @@
+{
+  "name": "user-management-service",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:gettyio/user-management-service.git",
+  "author": "Phillipe <phillipe@getty.io>",
+  "license": "MIT"
+}
