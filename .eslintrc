@@ -1,0 +1,10 @@
+{
+  "extends": "getty",
+  "rules": {
+    "generator-star-spacing": 0,
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
+    "no-unused-expressions": 0,
+    "no-underscore-dangle": 0,
+    "func-names": 0
+  }
+}
