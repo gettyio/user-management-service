@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import * as crypto from '../../config/crypto';
 
-const UserSchema: Schema = new Schema({
+const UserSchema = new Schema({
   role: { type: String, default: 'user', },
   username: { type: String, index: true, unique: true },
   password: { type: String, required: true },

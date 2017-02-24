@@ -6,7 +6,8 @@
   "author": "Phillipe <phillipe@getty.io>",
   "license": "MIT",
   "scripts": {
-    "test": "mocha ./tests/**/**/*.spec.js --recursive --compilers js:babel-register -b"
+    "pretest-integration": "bin/mongo.sh",
+    "test-integration": "mocha ./tests/integration/**/**/*.spec.js --recursive --compilers js:babel-register -b"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
