@@ -9,7 +9,6 @@ chai.use(chaiAsPromised);
 
 const User = userFactory({ User: UserModel });
 
-
 describe('user model spec', () => {
   beforeEach(async () => {
     await UserModel.findOneAndRemove({ username: 'cthulhu' });
@@ -41,5 +40,38 @@ describe('user model spec', () => {
     const error = await result.should.be.rejected;
     error.should.have.deep.property('isBoom', true);
     error.should.have.deep.property('output.statusCode', 422);
+  });
+
+  it('should find one user by id', async () => {
+    const userSaved = await User.save({
+      username: 'cthulhu',
+      password: 'abc123',
+      email: 'cthulhu@example.com'
+    });
+    const userFound = await User.findOneById(userSaved._id);
+
+    userFound.should.be.deep.equal(userSaved);
+  });
+
+  it('should find one user by email', async () => {
+    const userSaved = await User.save({
+      username: 'cthulhu',
+      password: 'abc123',
+      email: 'cthulhu@example.com'
+    });
+    const userFound = await User.findOneByEmailOrUsername(userSaved.email);
+
+    userFound.should.be.deep.equal(userSaved);
+  });
+
+  it('should find one user by username', async () => {
+    const userSaved = await User.save({
+      username: 'cthulhu',
+      password: 'abc123',
+      email: 'cthulhu@example.com'
+    });
+    const userFound = await User.findOneByEmailOrUsername(userSaved.username);
+
+    userFound.should.be.deep.equal(userSaved);
   });
 });

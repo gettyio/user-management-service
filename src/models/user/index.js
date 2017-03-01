@@ -15,9 +15,17 @@ async function save({ User }, user) {
   }
 }
 
-async function findOne({ User }, idEmailUsername) {
+async function findOneById({ User }, idEmailUsername) {
   const user = await User.findOne(
-    { $or: [{ _id: idEmailUsername }, { email: idEmailUsername }, { username: idEmailUsername }] },
+    { _id: idEmailUsername },
+    { password: 0 }
+  );
+  return user.toObject();
+}
+
+async function findOneByEmailOrUsername({ User }, idEmailUsername) {
+  const user = await User.findOne(
+    { $or: [{ email: idEmailUsername }, { username: idEmailUsername }] },
     { password: 0 }
   );
   return user.toObject();
@@ -36,7 +44,8 @@ async function update({ User }, id, updates) {
 export default function (deps) {
   return {
     save: save.bind(null, deps),
-    findOne: findOne.bind(null, deps),
+    findOneById: findOneById.bind(null, deps),
+    findOneByEmailOrUsername: findOneByEmailOrUsername.bind(null, deps),
     remove: remove.bind(null, deps),
     update: update.bind(null, deps),
   };
