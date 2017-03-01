@@ -22,4 +22,21 @@ describe('user model spec', () => {
     user.should.have.deep.property('created_at');
     user.should.have.deep.property('updated_at');
   });
+
+  it('should throw an error when username is duplicate', async () => {
+    await User.save({
+      username: 'cthulhu',
+      password: 'abc123',
+      email: 'cthulhu@example.com'
+    });
+    const result = User.save({
+      username: 'cthulhu',
+      password: 'otherpass',
+      email: 'another@email.com'
+    });
+    const error = await result.should.be.rejected;
+
+    error.should.have.deep.property('isBoom', true);
+    // error.should.be.rejected;
+  });
 });

@@ -1,9 +1,18 @@
+import boom from 'boom';
+
 async function save({ User }, user) {
-  let userDoc = new User(user);
-  await userDoc.save();
-  userDoc = userDoc.toObject();
-  delete userDoc.password;
-  return userDoc;
+  try {
+    let userDoc = new User(user);
+    await userDoc.save();
+    userDoc = userDoc.toObject();
+    delete userDoc.password;
+    return userDoc;
+  } catch (err) {
+    if (err.code === 11000) {
+      throw boom.badData('Duplicate username or email', err);
+    }
+    throw err;
+  }
 }
 
 async function findOne({ User }, idEmailUsername) {
