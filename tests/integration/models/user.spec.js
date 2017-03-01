@@ -11,6 +11,10 @@ const User = userFactory({ User: UserModel });
 
 
 describe('user model spec', () => {
+  beforeEach(async () => {
+    await UserModel.findOneAndRemove({ username: 'cthulhu' });
+  });
+
   it('should save an user', async () => {
     const user = await User.save({
       username: 'cthulhu',
@@ -35,8 +39,7 @@ describe('user model spec', () => {
       email: 'another@email.com'
     });
     const error = await result.should.be.rejected;
-
     error.should.have.deep.property('isBoom', true);
-    // error.should.be.rejected;
+    error.should.have.deep.property('output.statusCode', 422);
   });
 });
