@@ -1,9 +1,19 @@
 import childProcess from 'child_process';
+import mongoose from 'mongoose';
+import Promise from 'bluebird';
+
+mongoose.Promise = Promise;
 
 const exec = childProcess.exec;
 
-export default function (cb) {
+
+/**
+ * get the mongo container ip
+ */
+function setupMongo() {
   exec('docker inspect --format \'{{ .NetworkSettings.IPAddress }}\' $(docker ps -aqf "name=mongo-test")', (err, out) => {
-    cb(out);
+    mongoose.connect(`mongodb://${out}`);
   });
 }
+
+setupMongo();

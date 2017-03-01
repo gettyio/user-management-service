@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true, index: true, unique: true },
 }, {
   strict: false,
-  timestamps: { createdAt: 'created_at' },
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 });
 
 UserSchema.pre('save', true, async function preSave(next, done) {
