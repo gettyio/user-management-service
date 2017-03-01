@@ -12,6 +12,7 @@ const User = userFactory({ User: UserModel });
 describe('user model spec', () => {
   beforeEach(async () => {
     await UserModel.findOneAndRemove({ username: 'cthulhu' });
+    await UserModel.findOneAndRemove({ username: 'duplicateUser' });
   });
 
   it('should save an user', async () => {
@@ -73,5 +74,33 @@ describe('user model spec', () => {
     const userFound = await User.findOneByEmailOrUsername(userSaved.username);
 
     userFound.should.be.deep.equal(userSaved);
+  });
+
+  it('should update an user', async () => {
+    const userSaved = await User.save({
+      username: 'cthulhu',
+      password: 'abc123',
+      email: 'cthulhu@example.com'
+    });
+
+    const userUpdated = await User.update(userSaved._id, { email: 'other_email@email.com' });
+    userUpdated.should.have.deep.property('email', 'other_email@email.com');
+  });
+
+  it('should fail when updating with duplicate keys', async () => {
+    await User.save({
+      username: 'duplicateUser',
+      password: 'abc123',
+      email: 'duplicate@email.com'
+    });
+    const userSaved = await User.save({
+      username: 'cthulhu',
+      password: 'abc123',
+      email: 'cthulhu@example.com'
+    });
+    const result = User.update(userSaved._id, { email: 'duplicate@email.com' });
+    const error = await result.should.be.rejected;
+    error.should.have.deep.property('isBoom', true);
+    error.should.have.deep.property('output.statusCode', 422);
   });
 });

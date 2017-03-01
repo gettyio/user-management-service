@@ -36,8 +36,15 @@ async function remove({ User }, id) {
 }
 
 async function update({ User }, id, updates) {
-  const user = await User.findByIdAndUpdate(id, { $set: updates }, { new: true });
-  return user.toObject();
+  try {
+    const user = await User.findByIdAndUpdate(id, { $set: updates }, { new: true });
+    return user.toObject();
+  } catch (err) {
+    if (err.code === 11000) {
+      throw boom.badData('Duplicate username or email', err);
+    }
+    throw err;
+  }
 }
 
 
