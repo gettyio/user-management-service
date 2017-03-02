@@ -24,5 +24,9 @@ app.use(bodyParser.json());
 app.use(jwt.decodeJWT.unless(UNLESS_ENDPOINTS));
 app.use(jwt.hydrateUser.unless(UNLESS_ENDPOINTS));
 app.use(users({ passport }));
+app.use((err, req, res, next) => {
+  res.status(400).json(err);
+  next();
+});
 
 app.listen(8000, () => console.log('magic has started'));

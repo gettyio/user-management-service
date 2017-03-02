@@ -1,6 +1,23 @@
 import { Router } from 'express';
+import Joi from 'joi';
+import validate from 'express-validation';
 
 const router = new Router();
+
+const loginSchema = {
+  body: {
+    username: Joi.string().required(),
+    password: Joi.string().min(6).required()
+  }
+};
+
+const signupSchema = {
+  body: {
+    email: Joi.string().email().required(),
+    username: Joi.string().required(),
+    password: Joi.string().min(6).required()
+  }
+};
 
 function login({ passport }, req, res, next) {
   return passport.authenticate('local-login', { session: false },
@@ -29,7 +46,7 @@ function signup({ passport }, req, res, next) {
 }
 
 export default function (deps) {
-  router.post('/login', login.bind(null, deps));
-  router.post('/signup', signup.bind(null, deps));
+  router.post('/login', validate(loginSchema), login.bind(null, deps));
+  router.post('/signup', validate(signupSchema), signup.bind(null, deps));
   return router;
 }
