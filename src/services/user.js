@@ -13,7 +13,7 @@ const loginSchema = {
 
 const signupSchema = {
   body: {
-    email: Joi.string().email().required(),
+    email: Joi.string().email({ minDomainAtoms: 2 }).required(),
     username: Joi.string().required(),
     password: Joi.string().min(6).required()
   }
