@@ -54,7 +54,9 @@ async function validateUserNamePassword({ User }, username, password) {
     const isPasswordValid = await crypto.compare(password.toString(), user.password.toString());
     if (isPasswordValid) {
       user.toJSON = function () {
-        return this;
+        const obj = this.toObject();
+        delete obj.password;
+        return obj;
       };
       return user;
     }

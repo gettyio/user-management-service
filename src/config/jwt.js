@@ -31,12 +31,13 @@ async function hydrateUser({ User }, req, res, next) {
   }
 }
 
-hydrateUser.unless = unless;
 
 export default function (deps) {
-  return {
+  const objReturn = {
     encode: encode.bind(null, deps),
     decodeJWT: decodeJWT(deps),
     hydrateUser: hydrateUser.bind(null, deps)
   };
+  objReturn.hydrateUser.unless = unless;
+  return objReturn;
 }

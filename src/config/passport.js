@@ -39,4 +39,5 @@ function localSignup({ User, jwt }) {
 export default function (deps) {
   localLogin(deps);
   localSignup(deps);
+  return passport;
 }
