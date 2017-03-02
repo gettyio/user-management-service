@@ -4,17 +4,15 @@ import { Strategy as LocalStrategy } from 'passport-local';
 function localLogin({ User, jwt }) {
   passport.use('local-login', new LocalStrategy(
     { usernameField: 'username', passwordField: 'password', passReqToCallback: true },
-    async (req, username, password, done) => {
-      try {
-        const user = await User.validateUserNamePassword(username, password);
-
+    (req, username, password, done) => {
+      User.validateUserNamePassword(username, password)
+      .then(user =>
         done(
-          null,
-          { authorization: `Bearer ${jwt.encode(user.toJSON())}`, user }
-        );
-      } catch (e) {
-        done({ message: e.message });
-      }
+            null,
+            { authorization: `Bearer ${jwt.encode(user.toJSON())}`, user }
+        )
+      )
+      .catch(e => done({ message: e.message }));
     }
   ));
 }
@@ -22,16 +20,15 @@ function localLogin({ User, jwt }) {
 function localSignup({ User, jwt }) {
   passport.use('local-signup', new LocalStrategy(
     { usernameField: 'email', passwordField: 'password', passReqToCallback: true },
-    async (req, email, password, done) => {
-      try {
-        const user = await User.save(req.body);
+    (req, email, password, done) => {
+      return User.save(req.body)
+      .then(user =>
         done(
           null,
           { authorization: `Bearer ${jwt.encode(user)}`, user }
-        );
-      } catch (e) {
-        done({ message: e.message });
-      }
+        )
+      )
+      .catch(err => done({ message: err.message }));
     }
   ));
 }

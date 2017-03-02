@@ -32,7 +32,7 @@ function login({ passport }, req, res, next) {
 
 function signup({ passport }, req, res, next) {
   return passport.authenticate('local-signup', { session: false },
-    async (err, user) => {
+    (err, user) => {
       if (err) {
         res.status(err.status || 400).json(err);
       }

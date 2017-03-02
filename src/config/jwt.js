@@ -11,21 +11,23 @@ function encode({ secret }, data) {
   return jwt.sign(data, secret);
 }
 
-async function hydrateUser({ User }, req, res, next) {
-  /* eslint-disable no-param-reassign */
+function hydrateUser({ User }, req, res, next) {
   try {
     if (!req.user) {
       throw boom.unauthorized('Token is either missing or invalid');
     }
     const { _id } = req.user._id && req.user.role ? req.user : req.user._doc;
 
-    req.user = await User.findOneById(_id);
+    User.findOneById(_id)
+    .then((user) => {
+      req.user = user;
 
-    if (req.user) {
-      next();
-    } else {
-      throw boom.unauthorized('Invalid token');
-    }
+      if (req.user) {
+        next();
+      } else {
+        throw boom.unauthorized('Invalid token');
+      }
+    });
   } catch (e) {
     next(e);
   }

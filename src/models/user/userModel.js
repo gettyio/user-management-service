@@ -11,14 +11,14 @@ const UserSchema = new Schema({
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 });
 
-UserSchema.pre('save', true, async function preSave(next, done) {
-  try {
-    if (this.password) {
-      this.password = await crypto.hash(this.password);
-    }
-    done();
-  } catch (e) {
-    done(e);
+UserSchema.pre('save', true, function preSave(next, done) {
+  if (this.password) {
+    crypto.hash(this.password)
+    .then((password) => {
+      this.password = password;
+      done();
+    })
+    .catch(e => done(e));
   }
   next();
 });
