@@ -1,4 +1,5 @@
 import boom from 'boom';
+import * as crypto from '../../config/crypto';
 
 async function save({ User }, user) {
   try {
@@ -47,6 +48,19 @@ async function update({ User }, id, updates) {
   }
 }
 
+async function validateUserNamePassword({ User }, username, password) {
+  const user = await User.findOne({ $or: [{ email: username }, { username }] });
+  if (user) {
+    const isPasswordValid = await crypto.compare(password.toString(), user.password.toString());
+    if (isPasswordValid) {
+      user.toJSON = function () {
+        return this;
+      };
+      return user;
+    }
+  }
+  throw boom.unauthorized('Wrong username/email or password');
+}
 
 export default function (deps) {
   return {
@@ -55,5 +69,6 @@ export default function (deps) {
     findOneByEmailOrUsername: findOneByEmailOrUsername.bind(null, deps),
     remove: remove.bind(null, deps),
     update: update.bind(null, deps),
+    validateUserNamePassword: validateUserNamePassword.bind(null, deps)
   };
 }
