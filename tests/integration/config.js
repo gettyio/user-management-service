@@ -17,3 +17,5 @@ function setupMongo() {
 }
 
 setupMongo();
+
+export default mongoose;
