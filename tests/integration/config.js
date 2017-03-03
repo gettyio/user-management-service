@@ -1,6 +1,8 @@
 import childProcess from 'child_process';
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
+import userFactory from '../../src/models/user';
+import userModel from '../../src/models/user/userModel';
 
 mongoose.Promise = Promise;
 
@@ -19,3 +21,5 @@ function setupMongo() {
 setupMongo();
 
 export default mongoose;
+export const UserModel = userModel({ mongoose });
+export const User = userFactory({ User: UserModel });

@@ -1,15 +1,10 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Promise from 'bluebird';
-import mongoose from '../config';
-import userFactory from '../../../src/models/user';
-import userModel from '../../../src/models/user/userModel';
+import { User, UserModel } from '../config';
 
 chai.should();
 chai.use(chaiAsPromised);
-
-const UserModel = userModel({ mongoose });
-const User = userFactory({ User: UserModel });
 
 describe('user model spec', () => {
   beforeEach(() => {
