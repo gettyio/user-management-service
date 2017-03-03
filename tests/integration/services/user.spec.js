@@ -90,4 +90,24 @@ describe('user endpoints', () => {
       });
   });
 
+  it('should fail login if wrong password', () => {
+    return request(app)
+      .post('/signup')
+      .type('json')
+      .send({
+        username: 'cthulhu',
+        password: 'abc123',
+        email: 'cthulhu@example.com'
+      })
+      .then(() => request(app)
+        .post('/login')
+        .type('json')
+        .send({
+          username: 'cthulhu',
+          password: 'abc124'
+        })
+        .expect(400)
+      );
+  });
+
 });
