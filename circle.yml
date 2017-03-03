@@ -1,0 +1,22 @@
+general:
+machine:
+  node:
+    version: 6
+
+dependencies:
+  pre:
+    - mkdir -p ~/.yarn ~/.yarn-cache ~/docker
+    - rm -Rf node_modules
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+  cache_directories:
+    - "~/.yarn"
+    - "~/.yarn-cache"
+  override:
+    - yarn
+
+test:
+  override:
+    - yarn lint -- -f junit -o $CIRCLE_TEST_REPORTS/reports/eslint.xml
+    - yarn test-integration -- -R mocha-junit-reporter:
+        environment:
+          MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/mocha.xml
