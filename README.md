@@ -1,5 +1,7 @@
 # User management service
 
+[![CircleCI](https://circleci.com/gh/gettyio/user-management-service.svg?style=svg&circle-token=6a57d09534c679006020998aff84e1df6bc89cb5)](https://circleci.com/gh/gettyio/user-management-service)
+
 This package provides some utilities for user management from the _express_ route
 down to the mongoose data layer.
 
