@@ -56,3 +56,4 @@ implementation or use some third party library.
 
 - Implement Facebook login
 - Implement Google login
+- Recover password
