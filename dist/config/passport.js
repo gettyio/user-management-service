@@ -25,8 +25,8 @@ function localLogin(_ref) {
   _passport2.default.use('local-login', new _passportLocal.Strategy({ usernameField: 'username', passwordField: 'password', passReqToCallback: true }, function (req, username, password, done) {
     User.validateUserNamePassword(username, password).then(function (user) {
       return done(null, { authorization: 'Bearer ' + jwt.encode(user.toJSON()), user: user });
-    }).catch(function (e) {
-      return done({ message: e.message });
+    }).catch(function (err) {
+      return done(err);
     });
   }));
 }
@@ -39,7 +39,7 @@ function localSignup(_ref2) {
     return User.save(req.body).then(function (user) {
       return done(null, { authorization: 'Bearer ' + jwt.encode(user), user: user });
     }).catch(function (err) {
-      return done({ message: err.message });
+      return done(err);
     });
   }));
 }

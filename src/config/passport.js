@@ -12,7 +12,7 @@ function localLogin({ User, jwt }) {
             { authorization: `Bearer ${jwt.encode(user.toJSON())}`, user }
         )
       )
-      .catch(e => done({ message: e.message }));
+      .catch(err => done(err));
     }
   ));
 }
@@ -28,7 +28,7 @@ function localSignup({ User, jwt }) {
           { authorization: `Bearer ${jwt.encode(user)}`, user }
         )
       )
-      .catch(err => done({ message: err.message }));
+      .catch(err => done(err));
     }
   ));
 }

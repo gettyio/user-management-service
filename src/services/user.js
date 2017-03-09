@@ -23,7 +23,7 @@ function login({ passport }, req, res, next) {
   return passport.authenticate('local-login', { session: false },
     (err, user) => {
       if (err) {
-        res.status(err.status || 400).json(err);
+        next(err);
       }
       res.status(200).json(user);
     }
@@ -34,12 +34,12 @@ function signup({ passport }, req, res, next) {
   return passport.authenticate('local-signup', { session: false },
     (err, user) => {
       if (err) {
-        res.status(err.status || 400).json(err);
+        next(err);
       }
       try {
         res.status(201).json(user);
       } catch (e) {
-        res.status(e.status || 400).json(e);
+        next(e);
       }
     }
   )(req, res, next);
