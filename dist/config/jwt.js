@@ -53,7 +53,7 @@ function hydrateUser(_ref3, req, res, next) {
       throw _boom2.default.unauthorized('Token is either missing or invalid');
     }
 
-    var _ref4 = req.user._id && req.user.role ? req.user : req.user._doc,
+    var _ref4 = req.user._id && req.user.roles ? req.user : req.user._doc,
         _id = _ref4._id;
 
     User.findOneById(_id).then(function (user) {

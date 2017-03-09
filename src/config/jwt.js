@@ -16,7 +16,7 @@ function hydrateUser({ User }, req, res, next) {
     if (!req.user) {
       throw boom.unauthorized('Token is either missing or invalid');
     }
-    const { _id } = req.user._id && req.user.role ? req.user : req.user._doc;
+    const { _id } = req.user._id && req.user.roles ? req.user : req.user._doc;
 
     User.findOneById(_id)
     .then((user) => {
