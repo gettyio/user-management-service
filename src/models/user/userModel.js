@@ -3,7 +3,7 @@ import * as crypto from '../../config/crypto';
 export default function ({ mongoose }) {
   const { Schema } = mongoose;
   const UserSchema = new Schema({
-    role: { type: String, default: 'user', },
+    roles: [{ type: String }],
     username: { type: String, index: true, unique: true },
     password: { type: String, required: true },
     email: { type: String, required: true, index: true, unique: true },

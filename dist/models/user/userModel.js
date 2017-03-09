@@ -9,7 +9,7 @@ exports.default = function (_ref) {
   var Schema = mongoose.Schema;
 
   var UserSchema = new Schema({
-    role: { type: String, default: 'user' },
+    roles: [{ type: String }],
     username: { type: String, index: true, unique: true },
     password: { type: String, required: true },
     email: { type: String, required: true, index: true, unique: true }
