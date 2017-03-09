@@ -1,6 +1,6 @@
 {
   "name": "user-management-service",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/index.js",
   "repository": "git@github.com:gettyio/user-management-service.git",
   "author": "Phillipe <phillipe@getty.io>",
