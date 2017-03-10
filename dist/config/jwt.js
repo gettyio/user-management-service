@@ -60,10 +60,10 @@ function hydrateUser(_ref3, req, res, next) {
       req.user = user;
 
       if (req.user) {
-        next();
-      } else {
-        throw _boom2.default.unauthorized('Invalid token');
+        return next();
       }
+
+      throw _boom2.default.unauthorized('Invalid token');
     });
   } catch (e) {
     next(e);

@@ -44,9 +44,9 @@ function login(_ref, req, res, next) {
 
   return passport.authenticate('local-login', { session: false }, function (err, user) {
     if (err) {
-      next(err);
+      return next(err);
     }
-    res.status(200).json(user);
+    return res.status(200).json(user);
   })(req, res, next);
 }
 
@@ -55,12 +55,12 @@ function signup(_ref2, req, res, next) {
 
   return passport.authenticate('local-signup', { session: false }, function (err, user) {
     if (err) {
-      next(err);
+      return next(err);
     }
     try {
-      res.status(201).json(user);
+      return res.status(201).json(user);
     } catch (e) {
-      next(e);
+      return next(e);
     }
   })(req, res, next);
 }
