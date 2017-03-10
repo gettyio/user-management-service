@@ -23,10 +23,10 @@ function hydrateUser({ User }, req, res, next) {
       req.user = user;
 
       if (req.user) {
-        next();
-      } else {
-        throw boom.unauthorized('Invalid token');
+        return next();
       }
+
+      throw boom.unauthorized('Invalid token');
     });
   } catch (e) {
     next(e);
